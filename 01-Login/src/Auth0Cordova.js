@@ -6,7 +6,6 @@ import generateRandomChallengePair from './generateRandomChallengePair';
 import SharedBrowser from './adapters/SharedBrowser';
 import WebView from './adapters/WebView';
 import Session from './Session';
-
 @autobind
 class Auth0Cordova {
     // These params will never change
@@ -20,7 +19,7 @@ class Auth0Cordova {
         });
     }
 
-    static queueForCallback(resolve, reject){
+    static queueForCallback(resolve, reject) {
         if(Auth0Cordova.session) Auth0Cordova.session.stop(new Error('Only one instance of auth can happen at a time'));
         Auth0Cordova.session = new Session(resolve, reject);
     }

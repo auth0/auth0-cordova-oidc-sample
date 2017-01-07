@@ -1,11 +1,11 @@
 import autobind from 'core-decorators/lib/autobind';
 
 class Session{
-    constructor(resolve, reject){
+    constructor(resolve, reject) {
         this.reject = reject;
         this.resolve = resolve;
     }
-    stop(reason){
+    stop(reason) {
         this.reject(reason);
     } 
 
@@ -13,4 +13,5 @@ class Session{
         this.resolve(url);
     }
 }
+
 export default Session;

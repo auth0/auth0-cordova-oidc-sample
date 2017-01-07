@@ -5,16 +5,11 @@ const config = {
 
   context: __dirname,
 
-  entry: {
-    'auth0-cordova.min': './index.js',
-    'auth0-cordova': './index.js'
-  },
+  entry: './src/index.js',
 
   output: {
-    path: path.resolve(__dirname, './dist'),
-    library: 'Auth0Cordova',
-    libraryTarget: 'umd',
-    filename: '[name].js'
+    path: path.resolve(__dirname, './www'),
+    filename: 'index.js'
   },
 
   devtool: 'source-map',
