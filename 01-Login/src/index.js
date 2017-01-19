@@ -1,16 +1,30 @@
-import Auth0Cordova from './Auth0Cordova';
+import HybridOAuthClient from './HybridOAuthClient';
+import PKCEAuth from 'pkce-auth';
 import env from '../env';
 
-document.addEventListener('deviceready', function() {
-    const auth0 = new Auth0Cordova(env.domain, env.clientID, env.packageIdentifier);
 
-    window.handleOpenURL = function(url){
-        Auth0Cordova.resumeAuth(url);
-    }
+function authenticate(options, cb) {
+    const client = new HybridOAuthClient(env.domain, env.clientID, env.packageIdentifier);
+    const pkceAuth = new PKCEAuth(env.domain, env.clientID, client.getRedirectURL());
 
-    auth0.authenticate({
-        scope: 'openid',
-    }).then(function(authResult){
-        console.log(authResult);
-    });
-})
+    const url = pkceAuth.buildAuthorizeUrl(options);
+
+    return client.launchWebAuthFlow(url)
+        .then(function (redirectUrl) {
+            return pkceAuth.handleCallback(redirectUrl,cb)
+        }).catch(cb);
+}
+
+function intentHandler(url) {
+    HybridOAuthClient.resumeAuth(url);
+}
+
+function main() {
+    const authOptions = {
+        audience: env.audience
+    };
+    window.handleOpenURL = intentHandler;
+    authenticate(authOptions, (err, authResult) => console.log(err, authResult))
+}
+
+document.addEventListener('deviceready', main);
