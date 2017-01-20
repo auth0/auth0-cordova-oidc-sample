@@ -1,10 +1,9 @@
 import autobind from 'core-decorators/lib/autobind';
 
-/* @TODO: Implement non interactive system */
 @autobind
 class SharedBrowserAuthenticator{
     constructor (uiOptions) {
-
+        // You can optionally use this to customize the look and feel.
     }
 
     static isAvailable () {

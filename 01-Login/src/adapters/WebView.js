@@ -52,6 +52,10 @@ class WebviewAdapter{
       tab.addEventListener('loadstart', handleUrl);
     });
   }
+
+  cleanup(){
+    /* No op */
+  }
 }
 
 export default WebviewAdapter;

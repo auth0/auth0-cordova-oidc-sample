@@ -1,39 +1,30 @@
-# Auth0 for Cordova
-
-This package allows you to use Auth0 within a Cordova.
+# Auth0 Cordova Sample 01-Login
 
 ## Overview
-
-This package implements PKCE using SafariViewController for iOS and Chrome Custom Tabs where supported.
-It will fallback to using Webview where they are not supported.
-
-## Integration
+This is a simple sample that demonstrates how to use Auth0 in Hybrid Apps. The application uses [pkce-auth](https://npmjs.org/pkce-auth) a Library
+that implements PKCE Auth Client for Auth0.JS along side the embedded HybridOAuthClient. Which in turn uses the SFSafariViewController plugin. 
 
 ### Getting Started
 
-
-### Installation
-
-
-### Login
-
-
-## Using the Library
-
-
-## Contributing
-
-Pull requests are welcome!
-
-## Development
-
-Install the dev dependencies.
+Please clone and configure the `.env.example` into `.env`. Then run the following commands to build the javascript 
+project, prepare the cordova plugins and finally launch it on ios simulator.
 
 ```bash
 npm install
+npm run build
+npm run prepare
+npm run ios
 ```
 
-When changes are made, run `npm run build` to produce new files for the `dist` folder.
+## Development
+
+Run the watcher to constantly build the application and pipe it to `/www` folder.
+
+```bash
+npm run dev
+```
+
+The javascript project is built from '/src/index.js' to '/www/index.js`.
 
 ## What is Auth0?
 

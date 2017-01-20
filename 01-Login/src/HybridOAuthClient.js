@@ -6,26 +6,17 @@ import Session from './Session';
 
 @autobind
 class HybridOAuthClient {
-    // These params will never change
-    constructor(domain, clientID, packageIdentifier) {
+    // These params will never change, they are used 
+    // to create the callback url
+    constructor(domain, packageIdentifier) {
         this.domain = domain;
-        this.clientID = clientID;
         this.packageIdentifier = packageIdentifier;
-    }
-
-    static queueForCallback(resolve, reject, client) {
-        if (HybridOAuthClient.session) {
-            HybridOAuthClient.session.stop(new Error('Only one instance of auth can happen at a time'));
-        }
-        HybridOAuthClient.session = new Session(resolve, reject, client);
     }
 
     static resumeAuth(url) {
         // This must be handled this way otherwise cordova might crash on iOS
         setTimeout(function () {
-            if (HybridOAuthClient.session) {
-                HybridOAuthClient.session.resume(url);
-            }
+            Session.handleCallback(url);
         }, 4);
     }
 
@@ -61,16 +52,13 @@ class HybridOAuthClient {
     awaitCallback() {
         // This will be resolved in future
         return new Promise((resolve, reject) => {
-            if (this.session) {
-                this.session.stop(new Error('Only one instance of authentication can happen at one time'));
-            }
-            HybridOAuthClient.queueForCallback(resolve, reject, this);
+            Session.queueForCallback(resolve, reject, this);
         });
     }
 
-    getResponseURL(adapter, url) {
-        // This will always be true as not-true makes sense only for implicit mode
-        return adapter.getResponseURL(url, '', true)
+    getResponseURL(adapter, url, interactive) {
+        const redirectUri = this.getRedirectURL();
+        return adapter.getResponseURL(url, redirectUri, interactive)
             .then((response) => {
                 if (typeof response !== 'string') {
                     return this.awaitCallback()
@@ -83,12 +71,12 @@ class HybridOAuthClient {
             });
     }
 
-    // This is inspired by how Chrome handles Authenticatio
-    // however this uses Promises
-    launchWebAuthFlow(url) {
+    // This is inspired by how Chrome handles Authentication
+    // however this uses Promises instead of a global lastError
+    launchWebAuthFlow(url, interactive) {
         return SharedBrowser.isAvailable()
             .then(this.getAdapter)
-            .then(adapter => this.getResponseURL(adapter, url))
+            .then(adapter => this.getResponseURL(adapter, url, interactive))
     }
 }
 

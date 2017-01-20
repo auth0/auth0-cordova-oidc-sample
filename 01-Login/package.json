@@ -1,20 +1,20 @@
 {
-  "name": "auth0-cordova",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "auth0-phonegap-sample",
+  "version": "1.0.2",
+  "description": "Demonstrates using Auth0 in Cordova",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
-    "ios": "phonegap run ios"
+    "ios": "phonegap run ios",
+    "prepare": "phonegap prepare"
   },
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
     "auth0-js": "^8.0.4",
     "core-decorators": "^0.14.0",
-    "pkce-auth": "0.0.3",
-    "url-parse": "^1.1.7"
+    "jwt-decode": "^2.1.0",
+    "pkce-auth": "^0.0.4",
   },
   "devDependencies": {
     "phonegap": "6.4.2",

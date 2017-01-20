@@ -34,18 +34,59 @@
         * Enable eval(): add 'unsafe-eval' to default-src
     * Create your own at http://cspisawesome.com
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com https://some-game.auth0.com; style-src 'self' 'unsafe-inline'; media-src *" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com https://some-game.auth0.com; style-src 'self' 'unsafe-inline'; media-src *; img-src https:;" />
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
     <title>Hello World</title>
 </head>
 
 <body>
+    <!-- HTML is my templating engine -->
+    <!-- and CSS is my router -->
     <div class="app">
-        <h1>PhoneGap</h1>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
+        <div class="loading page visible">
+            <div class="flex col abs-centered full-page">
+                <div class="spinner spinner-lg is-auth0">
+                    <div class="circle"></div>
+                </div>
+                <h3>Auth0</h3>
+            </div>
+        </div>
+        <div class="login page">
+            <div class="flex col full-page">
+                <div class="expand-to-fill flex abs-centered">
+                    <div>
+                        <h1>Auth0</h1>
+                        <h2>Hybrid Quickstart</h2>
+                        <p>Please click the button to login using the hosted login page. You can edit the page at <a href="https://manage.auth0.com/#/login_page">Dashboard > Hosted Page</a></p>
+                    </div>
+                </div>
+                <hr />
+                <div class="flex hor-centered">
+                    <button class="btn btn-success btn-login">
+                        <span class="btn-icon icon-budicon-120"></span>
+                        <span>Login using Auth0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="profile page">
+            <div>
+                <h1>Auth0</h1>
+                <h2>Hybrid Quickstart</h2>
+            </div>
+            <br />
+            <code class="profile-json code-picker">loading...</code>
+            <br />
+            <p>The above is the response from <code>/userinfo</code> endpoint.</p>
+            <hr />
+            <div class="flex hor-centered">
+                <button class="btn btn-success btn-logout">
+                    <span class="btn-icon icon-budicon-120"></span>
+                    <span>Logout</span>
+                </button>
+            </div>
         </div>
     </div>
     <script src="cordova.js"></script>
