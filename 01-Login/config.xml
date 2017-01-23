@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.auth0.example.cordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.auth0.example.cordova" version="1.0.0" 
+    xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0"
+    xmlns:android= "http://schemas.android.com/apk/res/android"
+>
     <name>Auth0 Example</name>
     <description>
         Hello World sample application that responds to the deviceready event and authenticates using Auth0
@@ -9,7 +12,7 @@
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="16" />
     <platform name="android">
     </platform>
     <platform name="ios">
@@ -35,4 +38,7 @@
     <plugin name="cordova-plugin-customurlscheme" spec="~4.2.0">
         <variable name="URL_SCHEME" value="com.auth0.example.cordova" />
     </plugin>
+    <gap:config-file platform="android" parent="/manifest/application">
+        <activity android:launchMode="singleInstance" /> 
+    </gap:config-file>
 </widget>
