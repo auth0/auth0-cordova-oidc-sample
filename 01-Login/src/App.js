@@ -4,8 +4,12 @@ import decodeJwt from 'jwt-decode';
 import HybridOAuthClient from './HybridOAuthClient';
 import PKCEAuth from 'pkce-auth';
 import autobind from 'core-decorators/lib/autobind';
+
 const $$ = (arg) => document.querySelectorAll(arg);
-const $ = (arg) => document.querySelector(arg);
+const $  = (arg) => document.querySelector(arg);
+const $i = (id) => document.getElementById(id);
+const $c = (className) => document.getElementsByClassName(className);
+
 /*
  * 
  * App class is an example application which aims to 
@@ -28,16 +32,16 @@ class App {
             currentRoute: '/',
             routes: {
                 '/': {
-                    class: 'loading',
-                    handler: (page) => {
+                    id: 'loading',
+                    onMount: (page) => {
                         if(this.state.authenticated)
                             return this.redirectTo('/home');
                         return this.redirectTo('/login');
                     }
                 },
                 '/login': {
-                    class: 'login',
-                    handler: (page) => {
+                    id: 'login',
+                    onMount: (page) => {
                         if(this.state.authenticated === true){
                             return this.redirectTo('/home');
                         }
@@ -46,8 +50,8 @@ class App {
                     }
                 },
                 '/home': {
-                    class: 'profile',
-                    handler: (page) => {
+                    id: 'profile',
+                    onMount: (page) => {
                         const logoutButton = page.querySelector('.btn-logout');
                         const profileCodeContainer = page.querySelector('.profile-json')
                         logoutButton.addEventListener('click', e => this.logout(e));
@@ -60,8 +64,9 @@ class App {
         };
     }
     
-    run() {
+    run(id) {
         // The first run parts
+        this.container = $(id);
         this.resumeApp();        
     }
 
@@ -147,12 +152,13 @@ class App {
 
     render() {
         // A simple css powered router.
-        [].forEach.call($$('.page'), (page) => page.style.display = 'none');
         const currRoute = this.state.routes[this.state.currentRoute];
-        const currRouteEl = $('.' + currRoute.class); 
-        currRouteEl.style.display = 'block';
-        currRoute.handler(currRouteEl);
+        const currRouteEl = $i(currRoute.id);
+        const element = document.importNode(currRouteEl.content, true);
+        this.container.innerHTML = '';
+        this.container.appendChild(element);
+        currRoute.onMount(this.container);
     }
-}
+}   
 
 export default App;

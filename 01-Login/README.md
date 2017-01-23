@@ -2,7 +2,9 @@
 
 ## Overview
 This is a simple sample that demonstrates how to use Auth0 in Hybrid Apps. The application uses [pkce-auth](https://npmjs.org/pkce-auth) a Library
-that implements PKCE Auth Client for Auth0.JS along side the embedded HybridOAuthClient. Which in turn uses the SFSafariViewController plugin. 
+that implements PKCE Auth Client for Auth0.JS along side the embedded HybridOAuthClient. Which in turn uses the SFSafariViewController plugin.
+
+To handle the callback we use customurischeme plugin to listen to a custom uri which is defined by your package id and will be generted for you.
 
 ### Getting Started
 

@@ -2,60 +2,68 @@ import autobind from 'core-decorators/lib/autobind';
 
 // Fallback to old WebView where SFSafariViewController is not supported
 @autobind
-class WebviewAdapter{
+class WebViewAdapter{
+  static buildOptionString (options) { 
+    return Object.keys(options).map((key) => {
+      let value = options[key];
+      if(typeof(value) === 'boolean'){
+        value = value?'yes':'no';
+      }
+      return `${key}=${value}`;
+    }).join(',');
+  }
 
   constructor (uiOptions) {
     
   }
+  
+  open(url, hidden){
+    const browser = cordova.InAppBrowser;  
+    return new Promise((resolve, reject) => {
+      const options = {
+        location: true,
+        hidden
+      };
 
-  getResponseURL (authenticationURL, redirectURL, interactive) {
-    const re = RegExp(redirectURL);
-    const browser = cordova.InAppBrowser;
-    
-    return new Promise((resolve, reject) => { 
-      // Open a new tab in InAppBrowser
-      const tab = browser.open(authenticationURL, '_blank');
+      const optStr =  WebViewAdapter.buildOptionString(options);
+      const tab = browser.open(url, '_blank', optStr);
 
-      // First page that is loaded
-      function handleFirstLoadEnd({url}) {
+      const handleFirstLoadEnd = ({url}) => {
         tab.removeEventListener('loadstop', handleFirstLoadEnd);
-        if (re.test(url)) {
+        
+        if (!hidden) {
+          tab.show();
+        }
+        clearEvents();
+        resolve({});
+      }
+      
+      const handleLoadError = (e) => {
+        if(this.hasFinished){
           return;
         }
-        tab.show();
-      }
-
-      // Clears all event listeners
-      function clearEvents() {
-        tab.removeEventListener('loaderror', handleLoadError);
-        tab.removeEventListener('loadstop', handleFirstLoadEnd);
-        tab.removeEventListener('loadstart', handleUrl);
-      }
-
-      // There was an error loading the page
-      function handleLoadError(e) {
         clearEvents();
         reject(e);
       }
       
-      function handleUrl({url}) {
-        if (re.test(url) === false) {
-          return;
-        }
-        tab.close();
-        clearEvents();
-        return resolve({url});
+      const clearEvents = (e) => {
+        tab.removeEventListener('loaderror', handleLoadError);
+        tab.removeEventListener('loadstop', handleFirstLoadEnd);
       }
-
+      
       tab.addEventListener('loadstop', handleFirstLoadEnd);
       tab.addEventListener('loaderror', handleLoadError);
-      tab.addEventListener('loadstart', handleUrl);
+      this.tab = tab;
     });
   }
 
-  cleanup(){
-    /* No op */
+
+  close(){
+    this.hasFinished = true;
+    this.tab.close();
+    this.tab = null;
   }
+
 }
 
-export default WebviewAdapter;
+export default WebViewAdapter;

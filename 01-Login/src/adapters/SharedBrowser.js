@@ -1,46 +1,35 @@
 import autobind from 'core-decorators/lib/autobind';
 
 @autobind
-class SharedBrowserAuthenticator{
+class SharedBrowserAuthenticator {
     constructor (uiOptions) {
         // You can optionally use this to customize the look and feel.
     }
 
     static isAvailable () {
-        return new Promise((resolve, reject) => SafariViewController.isAvailable(resolve, reject));
+        return new Promise((resolve, reject) => {
+            SafariViewController.isAvailable(resolve, reject)
+        });
     }
 
-    /* redirectURL is not needed in this case, it will be handled by the server */
-    getResponseURL (authenticationURL, redirectURL, interactive) {
+    // Opens the url
+    open(url, hidden) {
         const sharedView = window.SafariViewController;
-        const options = {
-            hidden: !interactive,
-            url: authenticationURL
-        };
+        const options = {url, hidden};
 
         return new Promise((resolve, reject) => {
-            sharedView.show({
-                hidden: !interactive,
-                url: authenticationURL,
-            }, (result) => {
-                // Page loaded
+            sharedView.show(options, (result) => {
                 if (result.event === 'loaded') {
-                    if (!this.hasFinished && interactive) {
-                        return resolve({handleUrl: true});
+                    if (!this.hasFinished && !hidden) {
+                        return resolve({});
                     }
-                    reject(new Error('Browser loaded a url in Silent Authentication, this might be because there is no session'));
-                } else if (result.event === 'closed') {
-                    // Browser closed prematurely
-                    if (!this.hasFinished && interactive) {
-                        reject(new Error('Browser failed to open the url'));
-                    }
+                    reject(new Error('Browser loaded a url in Silent Authentication, this might be because there is no session or interaction was required.'));
                 }
             }, (e) =>  reject(e));
         });
     }
 
-    /* Free resources */
-    cleanup () {
+    close (){
         this.hasFinished = true;
         SafariViewController.hide();
     }

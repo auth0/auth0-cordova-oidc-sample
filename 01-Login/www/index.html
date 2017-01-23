@@ -34,9 +34,9 @@
         * Enable eval(): add 'unsafe-eval' to default-src
     * Create your own at http://cspisawesome.com
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com https://some-game.auth0.com; style-src 'self' 'unsafe-inline'; media-src *; img-src https:;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com https://some-game.auth0.com; style-src 'self' 'unsafe-inline' https://cdn.auth0.com; media-src *; img-src https:; font-src https://cdn.auth0.com;" />
 
-    <link rel="stylesheet" type="text/css" href="css/index.min.css" />
+    <link href="https://cdn.auth0.com/styleguide/4.8.33/index.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/app.css" />
     <title>Hello World</title>
 </head>
@@ -44,8 +44,10 @@
 <body>
     <!-- HTML is my templating engine -->
     <!-- and CSS is my router -->
-    <div class="app">
-        <div class="loading page visible">
+    <div class="app" id="app">
+    </div>
+    <template id="loading">
+        <div class="page">
             <div class="flex col abs-centered full-page">
                 <div class="spinner spinner-lg is-auth0">
                     <div class="circle"></div>
@@ -53,7 +55,9 @@
                 <h3>Auth0</h3>
             </div>
         </div>
-        <div class="login page">
+    </template>
+    <template id="login">
+        <div class="page">
             <div class="flex col full-page">
                 <div class="expand-to-fill flex abs-centered">
                     <div>
@@ -71,7 +75,9 @@
                 </div>
             </div>
         </div>
-        <div class="profile page">
+    </template>
+    <template id="profile">
+        <div class="page">
             <div>
                 <h1>Auth0</h1>
                 <h2>Hybrid Quickstart</h2>
@@ -88,7 +94,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </template>
     <script src="cordova.js"></script>
     <script src="./index.js"></script>
 </body>

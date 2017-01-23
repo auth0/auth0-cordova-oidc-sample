@@ -10,9 +10,8 @@ function main() {
     function intentHandler(url) {
         HybridOAuthClient.resumeAuth(url);
     }
-
     window.handleOpenURL = intentHandler;
-    app.run();
+    app.run('#app');
 }
 
 document.addEventListener('deviceready', main);

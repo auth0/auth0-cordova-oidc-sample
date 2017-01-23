@@ -57,17 +57,12 @@ class HybridOAuthClient {
     }
 
     getResponseURL(adapter, url, interactive) {
-        const redirectUri = this.getRedirectURL();
-        return adapter.getResponseURL(url, redirectUri, interactive)
-            .then((response) => {
-                if (typeof response !== 'string') {
-                    return this.awaitCallback()
-                        .then(function (url) {
-                            adapter.cleanup();
-                            return url;
-                        });
-                }
-                return response;
+        const urlPromise = this.awaitCallback();
+        return adapter.open(url, !interactive)
+            .then(() => urlPromise)
+            .then((url) => {
+                adapter.close();
+                return url;
             });
     }
 
