@@ -1,5 +1,4 @@
 import autobind from 'core-decorators/lib/autobind';
-import parse from 'url-parse';
 import SharedBrowser from './adapters/SharedBrowser';
 import WebView from './adapters/WebView';
 import Session from './Session';
