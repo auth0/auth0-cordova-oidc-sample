@@ -8,7 +8,7 @@ To handle the callback we use customurischeme plugin to listen to a custom uri w
 
 ### Getting Started
 
-Please clone and configure the `.env.example` into `.env`. Then run the following commands to build the javascript 
+Please clone and configure the `env.example.js` into `env.js`. Then run the following commands to build the javascript 
 project, prepare the cordova plugins and finally launch it on ios simulator.
 
 ```bash
