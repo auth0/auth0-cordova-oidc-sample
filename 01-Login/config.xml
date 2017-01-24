@@ -27,10 +27,14 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
+
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    
+    <preference name="AndroidLaunchMode" value="singleTask"/>
+    
     <engine name="ios" spec="~4.3.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="~1.3.0" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
@@ -38,7 +42,4 @@
     <plugin name="cordova-plugin-customurlscheme" spec="~4.2.0">
         <variable name="URL_SCHEME" value="com.auth0.example.cordova" />
     </plugin>
-    <gap:config-file platform="android" parent="/manifest/application">
-        <activity android:launchMode="singleInstance" /> 
-    </gap:config-file>
 </widget>
