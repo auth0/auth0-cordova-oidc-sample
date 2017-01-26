@@ -5,9 +5,9 @@
   "scripts": {
     "build": "webpack -p --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
-    "ios": "phonegap run ios",
+    "prepare": "phonegap prepare ios && phonegap prepare android",
     "android": "phonegap run android",
-    "prepare": "phonegap prepare ios"
+    "ios": "phonegap run ios"
   },
   "author": "Auth0",
   "license": "ISC",
