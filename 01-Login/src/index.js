@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import HybridOAuthClient from './HybridOAuthClient';
 import App from './App';
 

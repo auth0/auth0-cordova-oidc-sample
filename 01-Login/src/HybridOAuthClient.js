@@ -31,7 +31,7 @@ class HybridOAuthClient {
     }
 
     getRedirectURL() {
-        return `${this.packageIdentifier}://${this.domain}/${this.getOS()}/${this.packageIdentifier}/callback`;
+        return `${this.packageIdentifier}://${this.domain}/cordova/${this.packageIdentifier}/callback`;
     }
 
     canHandleUrl(url) {

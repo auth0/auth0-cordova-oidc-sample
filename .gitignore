@@ -1,6 +1,6 @@
 # Cordova
-/platforms
-/plugins
+platforms/
+plugins/
 
 # Logs
 logs
