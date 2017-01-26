@@ -2,46 +2,19 @@ import autobind from 'core-decorators/lib/autobind';
 
 // Fallback to old WebView where SFSafariViewController is not supported
 @autobind
-class WebViewAdapter{
-  static buildOptionString (options) { 
-    return Object.keys(options).map((key) => {
-      let value = options[key];
-      if(typeof(value) === 'boolean'){
-        value = value?'yes':'no';
-      }
-      return `${key}=${value}`;
-    }).join(',');
-  }
-
-  constructor (uiOptions) {
-    
-  }
-  
-  open(url, hidden){
+class WebViewAdapter{  
+  open(url){
     const browser = cordova.InAppBrowser;  
     return new Promise((resolve, reject) => {
-      const options = {
-        location: true,
-        hidden
-      };
-
-      const optStr =  WebViewAdapter.buildOptionString(options);
-      const tab = browser.open(url, '_blank', optStr);
+      const tab = browser.open(url, '_blank');
 
       const handleFirstLoadEnd = ({url}) => {
-        tab.removeEventListener('loadstop', handleFirstLoadEnd);
-        
-        if (!hidden) {
-          tab.show();
-        }
+        tab.removeEventListener('loadstop', handleFirstLoadEnd);        
         clearEvents();
         resolve({});
       }
       
       const handleLoadError = (e) => {
-        if(this.hasFinished){
-          return;
-        }
         clearEvents();
         reject(e);
       }

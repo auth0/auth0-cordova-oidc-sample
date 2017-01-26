@@ -15,7 +15,7 @@
     "auth0-js": "^8.0.4",
     "core-decorators": "^0.14.0",
     "jwt-decode": "^2.1.0",
-    "pkce-auth": "0.0.4"
+    "url-parse": "^1.1.7"
   },
   "devDependencies": {
     "phonegap": "6.4.2",
