@@ -1,8 +1,7 @@
 # Auth0 Cordova Sample 01-Login
 
 ## Overview
-This is a simple sample that demonstrates how to use Auth0 in Hybrid Apps. The application uses [pkce-auth](https://npmjs.org/pkce-auth) a Library
-that implements PKCE Auth Client for Auth0.JS along side the embedded HybridOAuthClient. Which in turn uses the SFSafariViewController plugin.
+This is a simple sample that demonstrates how to use Auth0 in Hybrid Apps.PKCE Auth Client for Auth0.JS. Which in turn uses the SFSafariViewController plugin.
 
 To handle the callback we use customurischeme plugin to listen to a custom uri which is defined by your package id and will be generted for you.
 
@@ -15,7 +14,7 @@ project, prepare the cordova plugins and finally launch it on ios simulator.
 npm install
 npm run build
 npm run prepare
-npm run ios
+npm run ios or npm run android
 ```
 
 ## Development
@@ -23,7 +22,7 @@ npm run ios
 Run the watcher to constantly build the application and pipe it to `/www` folder.
 
 ```bash
-npm run dev
+npm run watch
 ```
 
 The javascript project is built from '/src/index.js' to '/www/index.js`.

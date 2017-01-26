@@ -5,9 +5,9 @@
   "scripts": {
     "build": "webpack -p --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
-    "ios": "phonegap run ios",
+    "prepare": "phonegap prepare ios && phonegap prepare android",
     "android": "phonegap run android",
-    "prepare": "phonegap prepare ios"
+    "ios": "phonegap run ios"
   },
   "author": "Auth0",
   "license": "ISC",
@@ -15,7 +15,7 @@
     "auth0-js": "^8.0.4",
     "core-decorators": "^0.14.0",
     "jwt-decode": "^2.1.0",
-    "pkce-auth": "0.0.4"
+    "url-parse": "^1.1.7"
   },
   "devDependencies": {
     "phonegap": "6.4.2",

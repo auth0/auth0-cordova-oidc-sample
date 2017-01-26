@@ -1,7 +1,7 @@
 import autobind from 'core-decorators/lib/autobind';
 
 @autobind
-class SharedBrowserAuthenticator {
+class BrowserTabAdapter {
     constructor (uiOptions) {
         // You can optionally use this to customize the look and feel.
     }
@@ -13,19 +13,19 @@ class SharedBrowserAuthenticator {
     }
 
     // Opens the url
-    open(url, hidden) {
+    open(url) {
         const sharedView = window.SafariViewController;
-        const options = {url, hidden};
+        const options = {url, hidden: false};
 
         return new Promise((resolve, reject) => {
             sharedView.show(options, (result) => {
                 if (result.event === 'loaded') {
-                    if (!this.hasFinished && !hidden) {
+                    if (!this.hasFinished) {
                         return resolve({});
                     }
-                    reject(new Error('Browser loaded a url in Silent Authentication, this might be because there is no session or interaction was required.'));
+                    reject(new Error('There was an error processing the login, loaded called after the authentication was complete'));
                 }
-            }, (e) =>  reject(e));
+            }, reject);
         });
     }
 
@@ -35,4 +35,4 @@ class SharedBrowserAuthenticator {
     }
 }
 
-export default SharedBrowserAuthenticator;
+export default BrowserTabAdapter;

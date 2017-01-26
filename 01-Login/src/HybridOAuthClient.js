@@ -1,5 +1,5 @@
 import autobind from 'core-decorators/lib/autobind';
-import SharedBrowser from './adapters/SharedBrowser';
+import BrowserTab from './adapters/BrowserTab';
 import WebView from './adapters/WebView';
 import Session from './Session';
 
@@ -41,7 +41,7 @@ class HybridOAuthClient {
     getAdapter(isSharedBrowserSupported) {
         let adapter = null;
         if (isSharedBrowserSupported) {
-            adapter = new SharedBrowser();
+            adapter = new BrowserTab();
         } else {
             adapter = new WebView();
         }
@@ -56,19 +56,17 @@ class HybridOAuthClient {
     }
 
     getResponseURL(adapter, url, interactive) {
-        const urlPromise = this.awaitCallback();
+        const callbackPromise = this.awaitCallback();
         return adapter.open(url, !interactive)
-            .then(() => urlPromise)
+            .then(() => callbackPromise)
             .then((url) => {
                 adapter.close();
                 return url;
             });
     }
 
-    // This is inspired by how Chrome handles Authentication
-    // however this uses Promises instead of a global lastError
     launchWebAuthFlow(url, interactive) {
-        return SharedBrowser.isAvailable()
+        return BrowserTab.isAvailable()
             .then(this.getAdapter)
             .then(adapter => this.getResponseURL(adapter, url, interactive))
     }
