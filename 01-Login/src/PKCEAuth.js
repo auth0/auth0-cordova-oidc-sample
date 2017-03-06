@@ -1,4 +1,3 @@
-import autobind from 'core-decorators/lib/autobind';
 import parse from 'url-parse';
 import auth0 from 'auth0-js';
 import generateRandomChallengePair from './generateRandomChallengePair';
@@ -6,7 +5,6 @@ import generateRandomChallengePair from './generateRandomChallengePair';
 /**
  * Helper Class to implement PKCE in Auth0.js environments
  */
-@autobind
 class PKCEAuth {
     constructor(domain, clientID, redirectUri) {
         if (!domain) {

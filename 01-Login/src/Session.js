@@ -1,6 +1,3 @@
-import autobind from 'core-decorators/lib/autobind';
-
-@autobind
 class Session {
     static shared = null;
     

@@ -1,9 +1,7 @@
-import autobind from 'core-decorators/lib/autobind';
 import BrowserTab from './adapters/BrowserTab';
 import WebView from './adapters/WebView';
 import Session from './Session';
 
-@autobind
 class HybridOAuthClient {
     // These params will never change, they are used 
     // to create the callback url

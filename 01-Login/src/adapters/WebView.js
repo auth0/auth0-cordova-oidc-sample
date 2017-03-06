@@ -1,7 +1,4 @@
-import autobind from 'core-decorators/lib/autobind';
-
 // Fallback to old WebView where SFSafariViewController is not supported
-@autobind
 class WebViewAdapter{  
   open(url){
     const browser = cordova.InAppBrowser;  

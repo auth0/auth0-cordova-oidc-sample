@@ -1,6 +1,3 @@
-import autobind from 'core-decorators/lib/autobind';
-
-@autobind
 class BrowserTabAdapter {
     constructor (uiOptions) {
         // You can optionally use this to customize the look and feel.
