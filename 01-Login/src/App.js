@@ -101,7 +101,10 @@ class App {
         localStorage.setItem('access_token', authResult.accessToken);
         this.resumeApp();
       })
-      .catch(() => e.target.disabled = false);
+      .catch((error) => {
+        console.log(error);
+        e.target.disabled = false;
+      });
   }
 
   logout(e) {

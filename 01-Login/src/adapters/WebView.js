@@ -1,37 +1,45 @@
 // Fallback to old WebView where SFSafariViewController is not supported
-class WebViewAdapter{  
-  open(url){
-    const browser = cordova.InAppBrowser;  
-    return new Promise((resolve, reject) => {
-      const tab = browser.open(url, '_blank');
+class WebViewAdapter{
+  open(url, handler){
+    const browser = cordova.InAppBrowser;
+    const tab = browser.open(url, '_blank');
 
-      const handleFirstLoadEnd = ({url}) => {
-        tab.removeEventListener('loadstop', handleFirstLoadEnd);        
-        clearEvents();
-        resolve({});
-      }
-      
-      const handleLoadError = (e) => {
-        clearEvents();
-        reject(e);
-      }
-      
-      const clearEvents = (e) => {
-        tab.removeEventListener('loaderror', handleLoadError);
-        tab.removeEventListener('loadstop', handleFirstLoadEnd);
-      }
-      
-      tab.addEventListener('loadstop', handleFirstLoadEnd);
-      tab.addEventListener('loaderror', handleLoadError);
-      this.tab = tab;
-    });
+    const handleFirstLoadEnd = ({url}) => {
+      handler(null, {event: 'loaded'});
+    }
+
+    const handleLoadError = (e) => {
+      clearEvents();
+      handler(e, null);
+    }
+
+    const handleExit = () => {
+      clearEvents();
+      handler(null, {event: 'closed'});
+    };
+
+    const clearEvents = (e) => {
+      tab.removeEventListener('loaderror', handleLoadError);
+      tab.removeEventListener('loadstop', handleFirstLoadEnd);
+      tab.removeEventListener('exit', handleExit);
+    }
+
+    tab.addEventListener('loadstop', handleFirstLoadEnd);
+    tab.addEventListener('loaderror', handleLoadError);
+    tab.addEventListener('exit', handleExit);
+    this.tab = tab;
+    this.clearEvents = clearEvents;
   }
 
 
   close(){
     this.hasFinished = true;
-    this.tab.close();
-    this.tab = null;
+    if (this.tab != null) {
+      this.tab.close();
+      this.tab = null;
+    }
+    this.clearEvents();
+    this.clearEvents = () => {};
   }
 
 }

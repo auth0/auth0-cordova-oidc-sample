@@ -3,7 +3,7 @@ import WebView from './adapters/WebView';
 import Session from './Session';
 
 class HybridOAuthClient {
-    // These params will never change, they are used 
+    // These params will never change, they are used
     // to create the callback url
     constructor(domain, packageIdentifier) {
         this.domain = domain;
@@ -11,10 +11,7 @@ class HybridOAuthClient {
     }
 
     static resumeAuth(url) {
-        // This must be handled this way otherwise cordova might crash on iOS
-        setTimeout(function () {
-            Session.handleCallback(url);
-        }, 4);
+        Session.handleCallback(url);
     }
 
     getOS() {
@@ -54,13 +51,20 @@ class HybridOAuthClient {
     }
 
     getResponseURL(adapter, url, interactive) {
-        const callbackPromise = this.awaitCallback();
-        return adapter.open(url, !interactive)
-            .then(() => callbackPromise)
-            .then((url) => {
-                adapter.close();
-                return url;
+        return new Promise((resolve, reject) => {
+            adapter.open(url, (error, result) => {
+                if(error) {
+                    reject(error);
+                }
+                if(result.event === 'closed' && this.getOS() === 'ios') {
+                    reject(new Error('user canceled'));
+                }
             });
+            Session.queueForCallback((url) => {
+                adapter.close();
+                resolve(url);
+            }, reject, this);
+        });
     }
 
     launchWebAuthFlow(url, interactive) {

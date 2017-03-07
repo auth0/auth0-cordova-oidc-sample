@@ -10,19 +10,16 @@ class BrowserTabAdapter {
     }
 
     // Opens the url
-    open(url) {
-        const sharedView = window.SafariViewController;
+    open(url, handler) {
+        const safari = window.SafariViewController;
         const options = {url, hidden: false};
 
-        return new Promise((resolve, reject) => {
-            sharedView.show(options, (result) => {
-                if (result.event === 'loaded') {
-                    if (!this.hasFinished) {
-                        return resolve({});
-                    }
-                    reject(new Error('There was an error processing the login, loaded called after the authentication was complete'));
-                }
-            }, reject);
+        safari.show(options, (result) => {
+            console.log(result);
+            handler(null, result);
+        }, (message) => {
+            console.log(message);
+            reject(new Error(message), null);
         });
     }
 
