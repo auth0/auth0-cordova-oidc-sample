@@ -1,8 +1,7 @@
 import env from '../env';
 import Auth0 from 'auth0-js';
 import decodeJwt from 'jwt-decode';
-import HybridOAuthClient from './HybridOAuthClient';
-import PKCEAuth from './PKCEAuth';
+import Auth0Cordova from './auth0-cordova';
 
 const $$ = (arg) => document.querySelectorAll(arg);
 const $ = (arg) => document.querySelector(arg);
@@ -82,21 +81,20 @@ class App {
 
   login(e) {
     e.target.disabled = true;
-    const client = new HybridOAuthClient(env.domain, env.packageIdentifier);
-    const pkceAuth = new PKCEAuth(env.domain, env.clientID, client.getRedirectURL());
+
+    const client = new Auth0Cordova({
+      clientId: env.clientID,
+      domain: env.domain,
+      packageIdentifier: env.packageIdentifier
+    });
 
     const options = {
       scope: 'openid profile',
       audience: env.audience
     };
 
-    const url = pkceAuth.buildAuthorizeUrl(options);
-
-    return client.launchWebAuthFlow(url, true)
-      .then((redirectUrl) => new Promise((resolve, reject) => {
-        const callback = (err, authResult) => err ? reject(err) : resolve(authResult);
-        pkceAuth.handleCallback(redirectUrl, callback);
-      }))
+    client
+      .authorize(options)
       .then((authResult) => {
         localStorage.setItem('access_token', authResult.accessToken);
         this.resumeApp();

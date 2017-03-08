@@ -1,5 +1,6 @@
 // Fallback to old WebView where SFSafariViewController is not supported
-class WebViewAdapter{
+class WebViewAgent {
+
   open(url, handler){
     const browser = cordova.InAppBrowser;
     const tab = browser.open(url, '_blank');
@@ -33,15 +34,14 @@ class WebViewAdapter{
 
 
   close(){
-    this.hasFinished = true;
     if (this.tab != null) {
       this.tab.close();
-      this.tab = null;
     }
     this.clearEvents();
+    this.tab = null;
     this.clearEvents = () => {};
   }
 
 }
 
-export default WebViewAdapter;
+export default WebViewAgent;
