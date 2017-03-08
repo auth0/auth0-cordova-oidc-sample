@@ -29,7 +29,7 @@
         <variable name="URL_SCHEME" value="com.auth0.cordova.example" />
         <variable name="ANDROID_SCHEME" value="com.auth0.cordova.example" />
         <variable name="ANDROID_HOST" value="aiur.auth0.com" />
-        <variable name="ANDROID_PATHPREFIX" value="/android/com.auth0.cordova.example/callback" />
+        <variable name="ANDROID_PATHPREFIX" value="/cordova/com.auth0.cordova.example/callback" />
     </plugin>
     <plugin name="cordova-plugin-safariviewcontroller" spec="~1.4.6" />
     <engine name="ios" spec="~4.3.1" />
