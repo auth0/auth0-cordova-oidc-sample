@@ -1,7 +1,7 @@
 import getAgent from './agent';
 import parse from 'url-parse';
 import auth0 from 'auth0-js';
-import generateProofKey from './crypto';
+import { generateProofKey, generateState } from './crypto';
 
 const getOS = () => {
   const userAgent = navigator.userAgent;
@@ -30,13 +30,16 @@ class Auth0Cordova {
       .then((agent) => new Promise((resolve, reject) => {
         const keys = generateProofKey();
         const {client, redirectUri} = this;
+        const {state, ...authParams} = parameters;
+        const requestState = state || generateState();
 
         var params = {
           code_challenge_method: 'S256',
           responseType: 'code',
           redirectUri: redirectUri,
           code_challenge: keys.codeChallenge,
-          ...parameters
+          state: requestState,
+          ...authParams
         };
         const url = client.buildAuthorizeUrl(params);
 
@@ -65,6 +68,11 @@ class Auth0Cordova {
           const response = parse(url, true).query;
           if (response.error) {
               return reject(new Error(response.error_description || response.error));
+          }
+
+          const responseState = response.state;
+          if (responseState !== requestState) {
+              return reject(new Error('Response state does not match expected state'));
           }
 
           const code = response.code;
