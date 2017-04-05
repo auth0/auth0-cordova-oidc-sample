@@ -1,20 +1,22 @@
 # Auth0 Cordova Sample 01-Login
 
 ## Overview
-This is a simple sample that demonstrates how to use Auth0 in Hybrid Apps.PKCE Auth Client for Auth0.JS. Which in turn uses the SFSafariViewController plugin.
+This is a sample that demonstrates how to authenticate with Auth0 via OAuth 2.0 and OpenID Connect protocols.
 
-To handle the callback we use customurischeme plugin to listen to a custom uri which is defined by your package id and will be generted for you.
+The Auth flow will be perfomed in the mobile OS browser using the code grant and PKCE to secure the authorization codes.
 
 ### Getting Started
 
-Please clone and configure the `env.example.js` into `env.js`. Then run the following commands to build the javascript 
-project, prepare the cordova plugins and finally launch it on ios simulator.
+Please clone and configure the `env.example.js` into `env.js`. The attributes domain, clientId and packageIdentifier are mandatory but audience can be omitted.
+
+Then run the following commands to build the cordova 
+project, prepare the cordova plugins and finally launch it on ios/android simulator.
 
 ```bash
 npm install
 npm run build
 npm run prepare
-npm run ios or npm run android
+npm run ios # or npm run android
 ```
 
 ## Development
@@ -25,7 +27,7 @@ Run the watcher to constantly build the application and pipe it to `/www` folder
 npm run watch
 ```
 
-The javascript project is built from '/src/index.js' to '/www/index.js`.
+The javascript project is built from `src/index.js` to `/www/index.js`.
 
 ## What is Auth0?
 
