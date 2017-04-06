@@ -1,7 +1,7 @@
 # Auth0 Cordova Sample 01-Login
 
 ## Overview
-This is a sample that demonstrates how to authenticate with Auth0 via OAuth 2.0 and OpenID Connect protocols.
+This is a sample that demonstrates how to authenticate with Auth0 via OAuth 2.0 and OpenID Connect protocols using Universal Links. The sample uses [Cordova Universal Links plugin](https://github.com/nordnet/cordova-universal-links-plugin) to use universal links in cordova. Please refer to the documentation on the plugin in order to setup the universal links. 
 
 The Auth flow will be perfomed in the mobile OS browser using the code grant and PKCE to secure the authorization codes.
 
